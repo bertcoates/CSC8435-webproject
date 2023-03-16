@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee database</title>
+  <link rel = "stylesheet" href="css/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  <script src="js/app.js"></script>
+</head>
+<body>
+
+<body>
+<header>
+  <h1>Employee Database</h1>
+</header>
+
+<!-- form for adding an employee -->
+<form action="/add" method="POST">
+  <fieldset>
+    <h3>Add new employee</h3>
+    <label>Employee ID</label>
+    <input type ="text" id = 'addEmpID' name="id" required>
+    <br><br>
+    <label>Name</label>
+    <input type="text" id = "addName" name="name" required>
+    <br><br>
+    <button type ="reset">Reset</button>
+    <button type ="submit">Submit</button>
+  </fieldset>
+</form>
+
+
+<!-- form for viewing an employee -->
+<form action="/view" method="POST">
+  <fieldset>
+    <h3>View an employee</h3>
+    <label>Employee ID</label>
+    <input type="text" id="viewEmpID" name="id" required>
+    <br><br>
+    <button type ="reset">Reset</button>
+    <button type ="submit">Submit</button>
+    <br><br><br>
+  </fieldset>
+</form>
+
+<!-- form for editing an employee -->
+<form action="/update" method="POST">
+  <fieldset>
+    <h3>Update an employee</h3>
+    <label>Employee ID</label>
+    <input type ="text" id = 'updateEmpID' name="id" required>
+    <br><br>
+    <label>New Name</label>
+    <input type="text" id = "updateName" name="name" required>
+    <br><br>
+    <button type ="reset">Reset</button>
+    <button type ="submit">Submit</button>
+  </fieldset>
+</form>
+
+
+<!-- form for deleting an employee -->
+<form action="/delete" method="POST">
+  <fieldset>
+    <h3>Delete an employee</h3>
+    <label>Employee ID</label>
+    <input type ="text" id = 'deleteEmpID' name="id" required>
+    <br><br>
+    <button type ="reset">Reset</button>
+    <button type ="submit">Submit</button>
+    <br><br><br>
+  </fieldset>
+</form>
+
+</body>
+</html>
