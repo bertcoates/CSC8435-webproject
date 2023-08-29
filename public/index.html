@@ -1,76 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Employee database</title>
-  <link rel = "stylesheet" href="css/style.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-  <script src="js/app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEone Can Run - Home</title>
+    <!-- favicon image from creative commons library at https://openverse.org/image/376da44d-7a3c-4394-bb09-7e434e8b9783?q=running%20shoe -->
+    <link rel="icon" type="image/x-icon"
+          href="https://api.openverse.engineering/v1/images/376da44d-7a3c-4394-bb09-7e434e8b9783/thumb/">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="../app.js"></script>
 </head>
 <body>
 
-<body>
-<header>
-  <h1>Employee Database</h1>
-</header>
+<div class="w3-bar w3-indigo">
+    <a class="w3-bar-item w3-button w3-mobile w3-blue" href="index.html">Home</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="leagues.html">Leagues</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="clubs.html">Clubs</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="runners.html">Runners</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="runtimes.html">Run Times</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="events.html">Events</a>
+</div>
 
-<!-- form for adding an employee -->
-<form action="/add" method="POST">
-  <fieldset>
-    <h3>Add new employee</h3>
-    <label>Employee ID</label>
-    <input type ="text" id = 'addEmpID' name="id" required>
-    <br><br>
-    <label>Name</label>
-    <input type="text" id = "addName" name="name" required>
-    <br><br>
-    <button type ="reset">Reset</button>
-    <button type ="submit">Submit</button>
-  </fieldset>
-</form>
+<div class="w3-content" style="max-width:5000px">
+    <div class="w3-display-container w3-center">
+        <img src="img/runner.jpg" alt="Nike Pro Runner" style="width:100%">
+        <div class="w3-display-topmiddle w3-container w3-blue w3-opacity-min w3-text-white">
+            <br>
+            <h1>NEone Can Run</h1>
+            <h2>The North East's premier 5k running club administration tool!</h2>
+            <br>
+        </div>
+        <!-- video temp removed until responsiveness can be fixed
+        <div class="w3-display-container w3-display-middle"
+             style="padding-bottom:56.25%; position:relative; display:block; width:75%">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/f_REinzwM6w?si=7SswYXBkIgKqorop"
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    style="position:absolute; top:0; left:0">
 
+            </iframe>
+        </div> -->
+    </div>
+    <p class="attribution w3-right w3-tiny">"<a target="_blank" rel="noopener noreferrer"
+                                        href="https://www.flickr.com/photos/80240627@N04/7355140602">Nike Pro runner</a>"
+        by <a
+                target="_blank" rel="noopener noreferrer" href="https://www.flickr.com/photos/80240627@N04">Simon A.
+            Thalmann</a> is licensed under <a target="_blank" rel="noopener noreferrer"
+                                              href="https://creativecommons.org/licenses/by/2.0/?ref=openverse">CC BY
+            2.0
+            <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"
+                 style="height: 1em; margin-right: 0.125em; display: inline;"></img><img
+                    src="https://mirrors.creativecommons.org/presskit/icons/by.svg"
+                    style="height: 1em; margin-right: 0.125em; display: inline;"></img></a>. </p>
 
-<!-- form for viewing an employee -->
-<form action="/view" method="POST">
-  <fieldset>
-    <h3>View an employee</h3>
-    <label>Employee ID</label>
-    <input type="text" id="viewEmpID" name="id" required>
-    <br><br>
-    <button type ="reset">Reset</button>
-    <button type ="submit">Submit</button>
-    <br><br><br>
-  </fieldset>
-</form>
+</div>
 
-<!-- form for editing an employee -->
-<form action="/update" method="POST">
-  <fieldset>
-    <h3>Update an employee</h3>
-    <label>Employee ID</label>
-    <input type ="text" id = 'updateEmpID' name="id" required>
-    <br><br>
-    <label>New Name</label>
-    <input type="text" id = "updateName" name="name" required>
-    <br><br>
-    <button type ="reset">Reset</button>
-    <button type ="submit">Submit</button>
-  </fieldset>
-</form>
+<div class="w3-container">
 
+</div>
 
-<!-- form for deleting an employee -->
-<form action="/delete" method="POST">
-  <fieldset>
-    <h3>Delete an employee</h3>
-    <label>Employee ID</label>
-    <input type ="text" id = 'deleteEmpID' name="id" required>
-    <br><br>
-    <button type ="reset">Reset</button>
-    <button type ="submit">Submit</button>
-    <br><br><br>
-  </fieldset>
-</form>
+<footer>
+
+</footer>
 
 </body>
 </html>

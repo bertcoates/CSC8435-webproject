@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEone Can Run - Runners</title>
+    <!-- favicon image from creative commons library at https://openverse.org/image/376da44d-7a3c-4394-bb09-7e434e8b9783?q=running%20shoe -->
+    <link rel="icon" type="image/x-icon" href="https://api.openverse.engineering/v1/images/376da44d-7a3c-4394-bb09-7e434e8b9783/thumb/">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <!-- <script src="../app.js"></script> -->
+</head>
+
+<body>
+
+<div class="w3-bar w3-indigo">
+    <a class="w3-bar-item w3-button w3-mobile" href="index.html">Home</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="leagues.html">Leagues</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="clubs.html">Clubs</a>
+    <a class="w3-bar-item w3-button w3-mobile w3-blue" href="runners.html">Runners</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="runtimes.html">Run Times</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="events.html">Events</a>
+</div>
+
+
+<div class="w3-container w3-padding-large">
+    <h1>Runners</h1>
+    <p>Click on the tab below to select the function you want to perform</p>
+
+    <div class="w3-bar">
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('view')">View Runner Details</button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('create')">Add New Runner</button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('update')">Edit Runner Details</button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('delete')">Delete Runner Details</button>
+    </div>
+
+    <!-- form for viewing a runner -->
+    <div id="view" class="tab">
+        <form action="/viewrunner" method="POST" autocomplete="off">
+            <fieldset>
+                <h2>View Runner Details</h2>
+                <label>Runner ID</label>
+                <input class="w3-input" type="number" id="runner_id" name="runner_id">
+                <br><br>
+                <label>Runner First Name</label>
+                <input class="w3-input" type="text" id="runner_forename" name="runner_forename" pattern="^[a-zA-Z]+">
+                <br><br>
+                <label>Runner Surname</label>
+                <input class="w3-input" type="text" id="runner_surname" name="runner_surname" pattern="^[a-zA-Z]+">
+                <br><br>
+                <button class="w3-button w3-red" type="reset">Reset</button>
+                <button class="w3-button w3-green" type="submit">Search</button>
+                <br><br><br>
+            </fieldset>
+        </form>
+    </div>
+
+    <!-- form for adding a runner -->
+    <div id="create" class="tab" style="display:none">
+        <form action="/addrunner" method="POST" autocomplete="off">
+            <fieldset>
+                <h2>Add a new runner</h2>
+                <label for="gender">Gender</label>
+                <select class="w3-select" id="gender" name="gender">
+                    <option value="unknown" selected></option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                    <option value="undisclosed">Prefer not to say</option>
+                </select>
+                <br><br>
+                <label>Runner Forename</label>
+                <input class="w3-input" type="text" id="addRunnerForename" name="runner_forename" required pattern="^[a-zA-Z]+">
+                <br><br>
+                <label>Runner Surname</label>
+                <input class="w3-input" type="text" id="addRunnerSurname" name="runner_surname" required pattern="^[a-zA-Z]+">
+                <br><br>
+                <label>Runner Date of Birth</label>
+                <input class="w3-input" type="date" id="addRunnerDOB" name="runner_dob" required min="2005-01-01">
+                <br><br>
+                <label>Runner Email</label>
+                <input class="w3-input" type="email" id="addRunnerEmail" name="runner_email" required>
+                <br><br>
+                <label>Club Name</label>
+                <input class="w3-input" type="text" id="addClubName" name="club_name" required>
+                <br><br>
+                <label>Photograph</label>
+                <br>
+                <input type="file" id="runnerPhoto" name="runner_photo" accept="image/jpeg">
+                <br><br>
+                <button class="w3-btn w3-red" type="reset">Reset</button>
+                <button class="w3-btn w3-green" type="submit">Add Runner</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <!-- form for editing a runner -->
+    <div id="update" class="tab" style="display:none">
+        <form action="/updaterunner" method="POST" autocomplete="off">
+            <fieldset>
+                <h2>Update a runner</h2>
+                <label>Runner ID</label>
+                <input class="w3-input" type="number" id='updateRunnerID' name="runner_id" required>
+                <br><br>
+                <label for="gender">New Gender</label>
+                <select class="w3-input" id="gender" name="gender">
+                    <option value="unknown" selected></option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                    <option value="undisclosed">Prefer not to say</option>
+                </select>
+                <br><br>
+                <label>New First Name</label>
+                <input class="w3-input" type="text" id="updateRunnerFirstName" name="new_runner_forename" required pattern="^[a-zA-Z]+">
+                <br><br>
+                <label>New Surname</label>
+                <input class="w3-input" type="text" id="updateRunnerSurname" name="new_runner_surname" required pattern="^[a-zA-Z]+">
+                <br><br>
+                <label>New Email Address</label>
+                <input class="w3-input" type="email" id="updateRunnerEmail" name="new_runner_email" required>
+                <br><br>
+                <label>New Club ID</label>
+                <input class="w3-input" type="number" id="updateClubID" name="new_club_id" required>
+                <br><br>
+                <button class="w3-btn w3-red" type="reset">Reset</button>
+                <button class="w3-btn w3-green" type="submit">Update</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <!-- form for deleting an employee -->
+    <div id="delete" class="tab" style="display:none">
+        <form action="/deleterunner" method="POST" autocomplete="off">
+            <fieldset>
+                <h2>Delete a runner</h2>
+                <label>Runner ID</label>
+                <input class="w3-input" type="number" id='deleteRunnerID' name="runner_id" required>
+                <br><br>
+                <button class="w3-btn w3-red" type="reset">Reset</button>
+                <button class="w3-btn w3-green" type="button" onclick="document.getElementById('confirm').style.display='block'">Delete</button>
+                <div id="confirm" class="w3-modal">
+                    <div class="w3-modal-content">
+                        <div class="w3-container">
+                            <button onclick="document.getElementById('confirm').style.display='none'" class="w3-button w3-display-topright">&times;</button>
+                            <h3>Confirm deletion</h3>
+                            <p>Are you sure you want to remove this runner?</p>
+                            <br><br>
+                            <button class="w3-button w3-red w3-display-bottommiddle" type="submit">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<!-- Code below provided by W3 Schools documentation for tabbed displays at https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_tabulators -->
+<script>
+    function openTab(action) {
+        var i;
+        var x = document.getElementsByClassName("tab");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        document.getElementById(action).style.display = "block";
+    }
+</script>
+
+</body>
+</html>

@@ -13,7 +13,7 @@ var app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -24,7 +24,7 @@ module.exports = app;
 
 
 var server = http.createServer(app);
-server.listen(8080,function(){
+server.listen(8080, function () {
     console.log("Server listening on port: 8080");
 });
 
@@ -39,49 +39,85 @@ app.use(bodyParser.urlencoded({extended: false}));
 /*app.use(express.static(path.join(__dirname,'../'))); */
 
 
-app.get('/', function(req,res){
-    res.sendFile(path.join(__dirname,'../index.html'));
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 // add extra fields here as type TEXT
-db.run('CREATE TABLE IF NOT EXISTS emp(id TEXT, name TEXT)');
+db.serialize(() => {
+    db.run('PRAGMA foreign_keys=on');
+    db.run('CREATE TABLE IF NOT EXISTS leagues(league_id INTEGER NOT NULL, league_name TEXT,secretary_name TEXT, secretary_email TEXT, public_private TEXT, PRIMARY KEY (league_id))');
+    db.run('CREATE TABLE IF NOT EXISTS clubs(club_id INTEGER NOT NULL, club_name TEXT, league_id INTEGER, league_name TEXT, club_email TEXT, PRIMARY KEY (club_id), FOREIGN KEY (league_id) REFERENCES leagues(league_id))');
+    db.run('CREATE TABLE IF NOT EXISTS runners(runner_id INTEGER NOT NULL, runner_forename TEXT, runner_surname TEXT, gender TEXT, runner_dob TEXT, runner_email TEXT, club_id INTEGER, club_name TEXT, runner_photo BLOB, PRIMARY KEY (runner_id), FOREIGN KEY (club_id) REFERENCES clubs(club_id))');
+    db.run('CREATE TABLE IF NOT EXISTS run_times(run_time_id INTEGER NOT NULL, runner_id INTEGER, runner_name TEXT, club_id INTEGER, club_name TEXT, league_id INTEGER, league_name TEXT, run_date TEXT, run_time INTEGER, PRIMARY KEY (run_time_id), FOREIGN KEY (runner_id) REFERENCES runners(runner_id), FOREIGN KEY (club_id) REFERENCES clubs (club_id), FOREIGN KEY (league_id) REFERENCES leagues (league_id))');
+
+    db.run('INSERT INTO leagues(league_name, secretary_name, secretary_email) VALUES("Great North Run","Bert Coates","bert.coates@greatrunners.com")');
+    db.run('INSERT INTO clubs(club_name, league_name, club_email) VALUES("Berts Runners","Great North Run","bertsrunners@greatrunners.com")');
+    db.run('INSERT INTO runners(runner_forename, runner_surname, runner_email, club_id) VALUES("bert","Coates","bert.coates.runner@greatrunners.com",1)');
+});
 
 /* these following functions will require editing to accept more or different field values */
 
-// View
-app.post('/view', function(req,res){
-    db.serialize(()=>{
-        db.each('SELECT id ID, name NAME FROM emp WHERE id =?', [req.body.id], function(err,row){
+// Views
+app.post('/viewleague', function (req, res) {
+    db.serialize(() => {
+        db.each('SELECT * FROM leagues WHERE league_name =?', [req.body.league_name], function (err, row) {
 
-            if(err){
+            if (err) {
                 res.send("Error encountered while displaying");
                 return console.error(err.message);
             }
-            res.send(` ID: ${row.ID},    Name: ${row.NAME}`);
+            res.send(` League ID: ${row.league_id}, Name: ${row.league_name}, Secretary: ${row.secretary_name}, Email: ${row.secretary_email}`);
+            console.log("Entry displayed successfully");
+        });
+    });
+});
+
+app.post('/viewrunner', function (req, res) {
+    db.serialize(() => {
+        db.each('SELECT runners.runner_id, runners.runner_forename, runners.runner_surname, runners.gender, runners.runner_email, clubs.club_id, clubs.club_name FROM runners JOIN clubs ON runners.club_id = clubs.club_id WHERE runner_id =? OR runner_forename =? OR runner_surname =?', [req.body.runner_id, req.body.runner_forename.toLowerCase(), req.body.runner_surname.toLowerCase()], function (err, row) {
+
+            if (err) {
+                res.send("Error encountered while displaying");
+                return console.error(err.message);
+            }
+            res.send(`Runner ID: ${row.runner_id} <br><br>Name: ${row.runner_forename} ${row.runner_surname} <br>Email: ${row.runner_email} <br>Club ID: ${row.club_id} <br>Club Name: ${row.club_name}`);
             console.log("Entry displayed successfully");
         });
     });
 });
 
 
-// Insert
-app.post('/add', function(req,res){
-    db.serialize(()=>{
-        db.run('INSERT INTO emp(id,name) VALUES(?,?)', [req.body.id, req.body.name], function(err) {
+// Inserts
+app.post('/addleague', function (req, res) {
+    db.serialize(() => {
+        db.run('INSERT INTO leagues(league_name,secretary_name,secretary_email,public_private) VALUES(?,?,?,?)', [req.body.league_name.toLowerCase(), req.body.secretary_name.toLowerCase(), req.body.secretary_email, req.body.public_private], function (err) {
             if (err) {
                 return console.log(err.message);
             }
-            console.log("New employee has been added");
-            res.send("New employee has been added into the database with ID = "+req.body.id+ " and Name = "+req.body.name);
+            console.log("New league has been added");
+            res.send("New league has been added into the database with League Name = " + req.body.league_name + ", Secretary Name = " + req.body.secretary_name + ", and Secretary Email = " + req.body.secretary_email);
+        });
+    });
+});
+
+app.post('/addrunner', function (req, res) {
+    db.serialize(() => {
+        db.run('INSERT INTO runners(gender,runner_forename,runner_surname,runner_dob,runner_email,club_name,runner_photo) VALUES(?,?,?,?,?,?,?)', [req.body.gender, req.body.runner_forename.toLowerCase(), req.body.runner_surname.toLowerCase(), req.body.runner_dob, req.body.runner_email, req.body.club_name, req.body.runner_photo], function (err) {
+            if (err) {
+                return console.log(err.message);
+            }
+            console.log("New runner has been added");
+            res.send(`New runner has been added into the database with:<br><br> Gender = ${req.body.gender} <br>Name = ${req.body.runner_forename} ${req.body.runner_surname} <br>DoB = ${req.body.runner_dob} <br>Email = ${req.body.runner_email} <br>Club = ${req.body.club_name}`);
         });
     });
 });
 
 //UPDATE
-app.post('/update', function(req,res){
-    db.serialize(()=>{
-        db.run('UPDATE emp SET name = ? WHERE id = ?', [req.body.name,req.body.id], function(err){
-            if(err){
+app.post('/update', function (req, res) {
+    db.serialize(() => {
+        db.run('UPDATE emp SET name = ? WHERE id = ?', [req.body.name, req.body.id], function (err) {
+            if (err) {
                 res.send("Error encountered while updating");
                 return console.error(err.message);
             }
@@ -93,9 +129,9 @@ app.post('/update', function(req,res){
 
 
 //DELETE
-app.post('/delete', function(req,res){
-    db.serialize(()=>{
-        db.run('DELETE FROM emp WHERE id = ?', req.body.id, function(err) {
+app.post('/deleterunner', function (req, res) {
+    db.serialize(() => {
+        db.run('DELETE FROM runners WHERE runner_id = ?', req.body.runner_id, function (err) {
             if (err) {
                 res.send("Error encountered while deleting");
                 return console.error(err.message);
@@ -107,8 +143,7 @@ app.post('/delete', function(req,res){
 });
 
 
-
-app.get('/close', function(req,res){
+app.get('/close', function (req, res) {
     db.close((err) => {
         if (err) {
             res.send('There is some error in closing the database');

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEone Can Run - Leagues</title>
+    <!-- favicon image from creative commons library at https://openverse.org/image/376da44d-7a3c-4394-bb09-7e434e8b9783?q=running%20shoe -->
+    <link rel="icon" type="image/x-icon" href="https://api.openverse.engineering/v1/images/376da44d-7a3c-4394-bb09-7e434e8b9783/thumb/">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="../app.js"></script>
+</head>
+<body>
+
+<div class="w3-bar w3-indigo">
+    <a class="w3-bar-item w3-button w3-mobile" href="index.html">Home</a>
+    <a class="w3-bar-item w3-button w3-mobile w3-blue" href="leagues.html">Leagues</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="clubs.html">Clubs</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="runners.html">Runners</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="runtimes.html">Run Times</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="events.html">Events</a>
+</div>
+
+<div class="w3-container w3-padding-large">
+    <h1>Runners</h1>
+    <p>Click on the tab below to select the function you want to perform</p>
+
+    <div class="w3-bar">
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('view')">View League Details</button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('create')">Add New League</button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('update')">Edit League Details</button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('delete')">Delete League</button>
+    </div>
+
+    <!-- form for viewing a league -->
+    <div id="view" class="tab">
+        <form action="/viewleague" method="POST" autocomplete="off">
+            <fieldset>
+                <h2>View League Details</h2>
+                <label>League ID</label>
+                <input class="w3-input" type="number" id="league_id" name="league_id">
+                <br><br>
+                <label>League Name</label>
+                <input class="w3-input" type="text" id="runner_forename" name="runner_forename" pattern="^[a-zA-Z]+">
+                <br><br>
+                <button class="w3-button w3-red" type="reset">Reset</button>
+                <button class="w3-button w3-green" type="submit">Submit</button>
+                <br><br><br>
+            </fieldset>
+        </form>
+    </div>
+
+    <!-- form for adding a runner -->
+    <div id="create" class="tab" style="display:none">
+        <form action="/addleague" method="POST" autocomplete="off">
+            <fieldset>
+                <h2>Create a new league</h2>
+                <label>League Name</label>
+                <input class="w3-input" type="text" id="addLeagueName" name="league_name" required pattern="^[a-zA-Z0-9]+">
+                <br><br>
+                <label>Secretary Name</label>
+                <input class="w3-input" type="text" id="addSecretaryName" name="secretary_name" required pattern="^[a-zA-Z]+">
+                <br><br>
+                <label>Secretary Email</label>
+                <input class="w3-input" type="email" id="addSecretaryEmail" name="secretary_email" required>
+                <br><br>
+                <label>Private or Public</label>
+                <br>
+                <input class="w3-radio" type="radio" id="public" name="public_private" value="Public">
+                <label for="public">Public</label>
+                <br>
+                <input class="w3-radio" type="radio" id="private" name="public_private" value="Private">
+                <label for="private">Private</label>
+                <br><br>
+                <button class="w3-btn w3-red" type="reset">Reset</button>
+                <button class="w3-btn w3-green" type="submit">Create</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <!-- form for editing a runner -->
+    <div id="update" class="tab" style="display:none">
+        <form action="/updateleague" method="POST" autocomplete="off">
+            <fieldset>
+                <h2>Update a league</h2>
+                <label>League ID</label>
+                <input class="w3-input" type="number" id='updateLeagueID' name="league_id" required>
+                <br><br>
+                <label>New League Name</label>
+                <input class="w3-input" type="text" id="updateLeagueName" name="new_league_forename" required pattern="^[a-zA-Z0-9]+">
+                <br><br>
+                <label>New Secretary Name</label>
+                <input class="w3-input" type="text" id="updateSecretaryName" name="new_secretary_name" required pattern="^[a-zA-Z]+">
+                <br><br>
+                <label>New Secretary Email Address</label>
+                <input class="w3-input" type="email" id="updateSecretaryEmail" name="new_secretary_email" required>
+                <br><br>
+                <button class="w3-btn w3-red" type="reset">Reset</button>
+                <button class="w3-btn w3-green" type="submit">Update</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <!-- form for deleting an employee -->
+    <div id="delete" class="tab" style="display:none">
+        <form action="/deleterunner" method="POST" autocomplete="off">
+            <fieldset>
+                <h2>Delete a league</h2>
+                <label>League ID</label>
+                <input class="w3-input" type="number" id='deleteLeagueID' name="league_id" required>
+                <br><br>
+                <button class="w3-btn w3-red" type="reset">Reset</button>
+                <button class="w3-btn w3-green" type="button" onclick="document.getElementById('confirm').style.display='block'">Delete</button>
+                <div id="confirm" class="w3-modal">
+                    <div class="w3-modal-content">
+                        <div class="w3-container">
+                            <button onclick="document.getElementById('confirm').style.display='none'" class="w3-button w3-display-topright">&times;</button>
+                            <h3>Confirm deletion</h3>
+                            <p>Are you sure you want to remove this league?</p>
+                            <br><br>
+                            <button class="w3-button w3-red w3-display-bottommiddle" type="submit">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<!-- Code below provided by W3 Schools documentation for tabbed displays at https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_tabulators -->
+<script>
+    function openTab(action) {
+        var i;
+        var x = document.getElementsByClassName("tab");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        document.getElementById(action).style.display = "block";
+    }
+</script>
+
+
+</body>
+</html>
