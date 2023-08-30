@@ -67,7 +67,7 @@ app.post('/viewleague', function (req, res) {
                 res.send("Error encountered while displaying");
                 return console.error(err.message);
             }
-            res.send(` League ID: ${row.league_id}, Name: ${row.league_name}, Secretary: ${row.secretary_name}, Email: ${row.secretary_email}, Public or Private: ${row.public_private}`);
+            res.send(`<meta http-equiv="refresh" content="3; URL=/leagues.html"/>League ID: ${row.league_id}, Name: ${row.league_name}, Secretary: ${row.secretary_name}, Email: ${row.secretary_email}, Public or Private: ${row.public_private}`);
             console.log("Entry displayed successfully");
         });
     });
@@ -75,15 +75,14 @@ app.post('/viewleague', function (req, res) {
 
 app.post('/viewrunner', function (req, res) {
     db.serialize(() => {
-        db.each('SELECT r.runner_id, r.runner_forename, r.runner_surname, r.gender, r.runner_email, c.club_id, c.club_name FROM runners r JOIN clubs c ON r.club_id = c.club_id WHERE runner_id =? OR runner_forename =? OR runner_surname =?', [req.body.runner_id, req.body.runner_forename.toLowerCase(), req.body.runner_surname.toLowerCase()], function (err, row) {
+        db.each('SELECT r.runner_id, r.runner_forename, r.runner_surname, r.gender, r.runner_email, c.club_id, c.club_name FROM runners r JOIN clubs c ON r.club_id = c.club_id WHERE runner_id =? OR (runner_forename =? AND runner_surname =?)', [req.body.runner_id, req.body.runner_forename.toLowerCase(), req.body.runner_surname.toLowerCase()], function (err, row) {
 
-            if (err) {
+            /*if (err) {
                 res.send("Error encountered while displaying");
                 return console.error(err.message);
-            }
-            /*res.send(`Runner ID: ${row.runner_id} <br><br>Name: ${row.runner_forename} ${row.runner_surname} <br>Email: ${row.runner_email} <br>Club ID: ${row.club_id} <br>Club Name: ${row.club_name}`);*/
-            res.json(row);
-            console.log("Entry displayed successfully");
+            }*/
+            res.send(`<meta http-equiv="refresh" content="3; URL=/runners.html"/>Runner ID: ${row.runner_id} <br><br>Name: ${row.runner_forename} ${row.runner_surname} <br>Email: ${row.runner_email} <br>Club ID: ${row.club_id} <br>Club Name: ${row.club_name}`);
+            console.log(`Entry displayed successfully ${row.runner_surname}`);
         });
     });
 });
@@ -97,7 +96,7 @@ app.post('/viewclub', function (req, res) {
                 return console.error(err.message);
             }
 
-            res.send(`Club ID: ${row.club_id} <br><br>Club Name: ${row.club_name} <br>Secretary Name: ${row.secretary_name} <br>Secretary Email: ${row.secretary_email} <br>League ID: ${row.league_id} <br>League Name: ${row.l.league_name}`);
+            res.send(`<meta http-equiv="refresh" content="3; URL=/clubs.html"/>Club ID: ${row.club_id} <br><br>Club Name: ${row.club_name} <br>Secretary Name: ${row.secretary_name} <br>Secretary Email: ${row.secretary_email} <br>League ID: ${row.league_id} <br>League Name: ${row.l.league_name}`);
             console.log("Entry displayed successfully");
         });
     });
@@ -120,12 +119,12 @@ app.post('/addleague', function (req, res) {
 
 app.post('/addrunner', function (req, res) {
     db.serialize(() => {
-        db.run('INSERT INTO runners(gender,runner_forename,runner_surname,runner_dob,runner_email,club_name,runner_photo) VALUES(?,?,?,?,?,?,?)', [req.body.gender, req.body.runner_forename.toLowerCase(), req.body.runner_surname.toLowerCase(), req.body.runner_dob, req.body.runner_email, req.body.club_name, req.body.runner_photo], function (err) {
+        db.run('INSERT INTO runners(gender,runner_forename,runner_surname,runner_dob,runner_email,club_id,runner_photo) VALUES(?,?,?,?,?,?,?)', [req.body.gender, req.body.runner_forename.toLowerCase(), req.body.runner_surname.toLowerCase(), req.body.runner_dob, req.body.runner_email, req.body.club_id, req.body.runner_photo], function (err) {
             if (err) {
                 return console.log(err.message);
             }
             console.log("New runner has been added");
-            res.send(`New runner has been added into the database with:<br><br> Gender = ${req.body.gender} <br>Name = ${req.body.runner_forename} ${req.body.runner_surname} <br>DoB = ${req.body.runner_dob} <br>Email = ${req.body.runner_email} <br>Club = ${req.body.club_name}`);
+            res.send(`<meta http-equiv="refresh" content="3; URL=/runners.html"/>New runner has been added into the database with:<br><br> Gender = ${req.body.gender} <br>Name = ${req.body.runner_forename} ${req.body.runner_surname} <br>DoB = ${req.body.runner_dob} <br>Email = ${req.body.runner_email} <br>Club = ${req.body.club_id}`);
         });
     });
 });

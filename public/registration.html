@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEone Can Run - Register for an Event</title>
+    <!-- favicon image from creative commons library at https://openverse.org/image/376da44d-7a3c-4394-bb09-7e434e8b9783?q=running%20shoe -->
+    <link rel="icon" type="image/x-icon"
+          href="https://api.openverse.engineering/v1/images/376da44d-7a3c-4394-bb09-7e434e8b9783/thumb/">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="w3-bar w3-indigo">
+    <a class="w3-bar-item w3-button w3-mobile" href="index.html">Home</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="leagues.html">Leagues</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="clubs.html">Clubs</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="runners.html">Runners</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="runtimes.html">Run Times</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="events.html">Events</a>
+</div>
+
+<div>
+    <div class="w3-content" style="max-width:5000px">
+        <div class="w3-display-container w3-center">
+            <img class="w3-image" src="img/northumberlandia.jpg" alt="Northumberlandia" style="width:100%">
+
+            <div class="w3-container w3-center w3-display-topmiddle">
+                <form action="mailto:blah-diddy-blah@test.idk" method="get" enctype="application/x-www-form-urlencoded">
+                    <br><br>
+                    Event:<br>
+                    <input type="text" name="subject" placeholder="Event Name"><br><br>
+                    Runner ID:<br>
+                    <input type="text" name="runner_id" placeholder="Your Runner ID"><br><br>
+                    Club ID:<br>
+                    <input type="text" name="club_id" placeholder="Your Club ID"><br><br>
+                    Additional Notes:<br>
+                    <textarea name="body" rows="5" cols="50" placeholder="Your Message"></textarea><br><br>
+                    <br>
+                    <input class="w3-btn w3-blue" type="submit" value="Send">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
