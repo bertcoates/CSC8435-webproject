@@ -75,16 +75,33 @@ app.post('/viewleague', function (req, res) {
 
 app.post('/viewrunner', function (req, res) {
     db.serialize(() => {
-        db.each('SELECT runners.runner_id, runners.runner_forename, runners.runner_surname, runners.gender, runners.runner_email, clubs.club_id, clubs.club_name FROM runners JOIN clubs ON runners.club_id = clubs.club_id WHERE runner_id =? OR runner_forename =? OR runner_surname =?', [req.body.runner_id, req.body.runner_forename.toLowerCase(), req.body.runner_surname.toLowerCase()], function (err, row) {
+        db.each('SELECT r.runner_id, r.runner_forename, r.runner_surname, r.gender, r.runner_email, c.club_id, c.club_name FROM runners r JOIN clubs c ON r.club_id = c.club_id WHERE runner_id =? OR runner_forename =? OR runner_surname =?', [req.body.runner_id, req.body.runner_forename.toLowerCase(), req.body.runner_surname.toLowerCase()], function (err, row) {
 
             if (err) {
                 res.send("Error encountered while displaying");
                 return console.error(err.message);
             }
-            res.send(`Runner ID: ${row.runner_id} <br><br>Name: ${row.runner_forename} ${row.runner_surname} <br>Email: ${row.runner_email} <br>Club ID: ${row.club_id} <br>Club Name: ${row.club_name}`);
+            /*res.send(`Runner ID: ${row.runner_id} <br><br>Name: ${row.runner_forename} ${row.runner_surname} <br>Email: ${row.runner_email} <br>Club ID: ${row.club_id} <br>Club Name: ${row.club_name}`);*/
+            res.json(row);
             console.log("Entry displayed successfully");
         });
     });
+});
+
+app.post('/viewclub', function (req, res) {
+    db.serialize(() => {
+        db.each('SELECT c.club_id, c.club_name, c.secretary_name, c.secretary_email, l.league_id, l.league_name FROM clubs c JOIN leagues l ON c.league_id = l.league_id WHERE club_id =? OR club_name =?', [req.body.club_id, req.body.club_name.toLowerCase()], function (err, row) {
+
+            if (err) {
+                res.send("Error encountered while displaying");
+                return console.error(err.message);
+            }
+
+            res.send(`Club ID: ${row.club_id} <br><br>Club Name: ${row.club_name} <br>Secretary Name: ${row.secretary_name} <br>Secretary Email: ${row.secretary_email} <br>League ID: ${row.league_id} <br>League Name: ${row.l.league_name}`);
+            console.log("Entry displayed successfully");
+        });
+    });
+
 });
 
 
