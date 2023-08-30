@@ -48,12 +48,12 @@ db.serialize(() => {
     db.run('PRAGMA foreign_keys=on');
     db.run('CREATE TABLE IF NOT EXISTS leagues(league_id INTEGER NOT NULL, league_name TEXT,secretary_name TEXT, secretary_email TEXT, public_private TEXT, PRIMARY KEY (league_id))');
     db.run('CREATE TABLE IF NOT EXISTS clubs(club_id INTEGER NOT NULL, club_name TEXT, league_id INTEGER, league_name TEXT, club_email TEXT, PRIMARY KEY (club_id), FOREIGN KEY (league_id) REFERENCES leagues(league_id))');
-    db.run('CREATE TABLE IF NOT EXISTS runners(runner_id INTEGER NOT NULL, runner_forename TEXT, runner_surname TEXT, gender TEXT, runner_dob TEXT, runner_email TEXT, club_id INTEGER, club_name TEXT, runner_photo BLOB, PRIMARY KEY (runner_id), FOREIGN KEY (club_id) REFERENCES clubs(club_id))');
+    db.run('CREATE TABLE IF NOT EXISTS runners(runner_id INTEGER NOT NULL, runner_forename TEXT, runner_surname TEXT, gender TEXT, runner_dob TEXT, runner_email TEXT, club_id INTEGER, runner_photo BLOB, PRIMARY KEY (runner_id), FOREIGN KEY (club_id) REFERENCES clubs(club_id))');
     db.run('CREATE TABLE IF NOT EXISTS run_times(run_time_id INTEGER NOT NULL, runner_id INTEGER, runner_name TEXT, club_id INTEGER, club_name TEXT, league_id INTEGER, league_name TEXT, run_date TEXT, run_time INTEGER, PRIMARY KEY (run_time_id), FOREIGN KEY (runner_id) REFERENCES runners(runner_id), FOREIGN KEY (club_id) REFERENCES clubs (club_id), FOREIGN KEY (league_id) REFERENCES leagues (league_id))');
 
-    db.run('INSERT INTO leagues(league_name, secretary_name, secretary_email) VALUES("Great North Run","Bert Coates","bert.coates@greatrunners.com")');
-    db.run('INSERT INTO clubs(club_name, league_name, club_email) VALUES("Berts Runners","Great North Run","bertsrunners@greatrunners.com")');
-    db.run('INSERT INTO runners(runner_forename, runner_surname, runner_email, club_id) VALUES("bert","Coates","bert.coates.runner@greatrunners.com",1)');
+    db.run('INSERT INTO leagues(league_name, secretary_name, secretary_email) VALUES("great north run","bert coates","bert.coates@greatrunners.com")');
+    db.run('INSERT INTO clubs(club_name, league_name, club_email) VALUES("berts runners","great north run","bertsrunners@greatrunners.com")');
+    db.run('INSERT INTO runners(runner_forename, runner_surname, runner_email, club_id) VALUES("bert","coates","bert.coates.runner@greatrunners.com",1)');
 });
 
 /* these following functions will require editing to accept more or different field values */
@@ -61,13 +61,13 @@ db.serialize(() => {
 // Views
 app.post('/viewleague', function (req, res) {
     db.serialize(() => {
-        db.each('SELECT * FROM leagues WHERE league_name =?', [req.body.league_name], function (err, row) {
+        db.each('SELECT league_id, league_name, secretary_name, secretary_email, public_private FROM leagues WHERE league_id =? OR league_name =?', [req.body.league_id, req.body.league_name.toLowerCase()], function (err, row) {
 
             if (err) {
                 res.send("Error encountered while displaying");
                 return console.error(err.message);
             }
-            res.send(` League ID: ${row.league_id}, Name: ${row.league_name}, Secretary: ${row.secretary_name}, Email: ${row.secretary_email}`);
+            res.send(` League ID: ${row.league_id}, Name: ${row.league_name}, Secretary: ${row.secretary_name}, Email: ${row.secretary_email}, Public or Private: ${row.public_private}`);
             console.log("Entry displayed successfully");
         });
     });
@@ -96,7 +96,7 @@ app.post('/addleague', function (req, res) {
                 return console.log(err.message);
             }
             console.log("New league has been added");
-            res.send("New league has been added into the database with League Name = " + req.body.league_name + ", Secretary Name = " + req.body.secretary_name + ", and Secretary Email = " + req.body.secretary_email);
+            res.send("New " + req.body.public_private + " league has been added into the database with League Name = " + req.body.league_name + ", Secretary Name = " + req.body.secretary_name + ", and Secretary Email = " + req.body.secretary_email);
         });
     });
 });
@@ -114,9 +114,22 @@ app.post('/addrunner', function (req, res) {
 });
 
 //UPDATE
-app.post('/update', function (req, res) {
+app.post('/updaterunner', function (req, res) {
     db.serialize(() => {
-        db.run('UPDATE emp SET name = ? WHERE id = ?', [req.body.name, req.body.id], function (err) {
+        db.run('UPDATE runners SET gender =?, runner_forename = ?, runner_surname = ?, runner_email = ?, club_id = ? WHERE runner_id = ?', [req.body.new_gender, req.body.new_runner_forename, req.body.new_runner_surname, req.body.new_runner_email, req.body.new_club_id], function (err) {
+            if (err) {
+                res.send("Error encountered while updating");
+                return console.error(err.message);
+            }
+            res.send("Entry updated successfully");
+            console.log("Entry updated successfully");
+        });
+    });
+});
+
+app.post('/updateleague', function (req, res) {
+    db.serialize(() => {
+        db.run('UPDATE leagues SET league_name =?, secretary_name =?, secretary_email =? WHERE league_id = ?', [req.body.new_league_name, req.body.new_secretary_name, req.body.new_secretary_email], function (err) {
             if (err) {
                 res.send("Error encountered while updating");
                 return console.error(err.message);
