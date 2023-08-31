@@ -112,7 +112,6 @@ app.post('/viewclub', function (req, res) {
 
 // Inserts
 app.post('/addleague', function (req, res) {
-    db.serialize(() => {
         db.run('INSERT INTO leagues(league_name,secretary_name,secretary_email,public_private) VALUES(?,?,?,?)', [req.body.league_name.toLowerCase(), req.body.secretary_name.toLowerCase(), req.body.secretary_email, req.body.public_private], function (err) {
             if (err) {
                 return console.log(err.message);
@@ -121,7 +120,6 @@ app.post('/addleague', function (req, res) {
             res.send("New " + req.body.public_private + " league has been added into the database with League Name = " + req.body.league_name + ", Secretary Name = " + req.body.secretary_name + ", and Secretary Email = " + req.body.secretary_email);
         });
     });
-});
 
 app.post('/addrunner', function (req, res) {
     db.run('INSERT INTO runners(gender,runner_forename,runner_surname,runner_dob,runner_email,club_id,runner_photo) VALUES(?,?,?,?,?,?,?)', [req.body.gender, req.body.runner_forename.toLowerCase(), req.body.runner_surname.toLowerCase(), req.body.runner_dob, req.body.runner_email, req.body.club_id, req.body.runner_photo], function (err) {
@@ -144,7 +142,6 @@ app.post('/addclub', function (req, res) {
 });
 //UPDATE
 app.post('/updaterunner', function (req, res) {
-    db.serialize(() => {
         db.run('UPDATE runners SET gender =?, runner_forename = ?, runner_surname = ?, runner_email = ?, club_id = ? WHERE runner_id = ?', [req.body.new_gender, req.body.new_runner_forename, req.body.new_runner_surname, req.body.new_runner_email, req.body.new_club_id], function (err) {
             if (err) {
                 res.send("Error encountered while updating");
@@ -154,10 +151,8 @@ app.post('/updaterunner', function (req, res) {
             console.log("Entry updated successfully");
         });
     });
-});
 
 app.post('/updateleague', function (req, res) {
-    db.serialize(() => {
         db.run('UPDATE leagues SET league_name =?, secretary_name =?, secretary_email =? WHERE league_id = ?', [req.body.new_league_name, req.body.new_secretary_name, req.body.new_secretary_email], function (err) {
             if (err) {
                 res.send("Error encountered while updating");
@@ -167,7 +162,6 @@ app.post('/updateleague', function (req, res) {
             console.log("Entry updated successfully");
         });
     });
-});
 
 app.post('/updateclub', function (req, res) {
         db.run('UPDATE clubs SET club_name =?, secretary_name =?, club_email =? WHERE club_id = ?', [req.body.new_club_name, req.body.new_secretary_name, req.body.new_club_email], function (err) {
@@ -182,7 +176,6 @@ app.post('/updateclub', function (req, res) {
 
 //DELETE
 app.post('/deleterunner', function (req, res) {
-    db.serialize(() => {
         db.run('DELETE FROM runners WHERE runner_id = ?', req.body.runner_id, function (err) {
             if (err) {
                 res.send("Error encountered while deleting");
@@ -192,10 +185,8 @@ app.post('/deleterunner', function (req, res) {
             console.log("Entry deleted");
         });
     });
-});
 
 app.post('/deleteleague', function (req, res) {
-    db.serialize(() => {
         db.run('DELETE FROM leagues WHERE league_id = ?', req.body.league_id, function (err) {
             if (err) {
                 res.send("Error encountered while deleting");
@@ -205,21 +196,17 @@ app.post('/deleteleague', function (req, res) {
             console.log("Entry deleted");
         });
     });
-});
 
 app.post('/deleteclub', function (req, res) {
-    db.serialize(() => {
         db.run('DELETE FROM clubs WHERE club_id = ?', req.body.club_id, function (err) {
             if (err) {
                 res.send("Error encountered while deleting");
                 return console.error(err.message);
-                return console.debug(err.message);
             }
             res.send("Entry deleted");
             console.log("Entry deleted");
         });
     });
-});
 
 app.get('/close', function (req, res) {
     db.close((err) => {

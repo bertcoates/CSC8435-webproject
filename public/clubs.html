@@ -10,53 +10,96 @@
 </head>
 <body>
 
-<div class="w3-bar w3-indigo">
-    <a class="w3-bar-item w3-button w3-mobile" href="index.html">Home</a>
-    <a class="w3-bar-item w3-button w3-mobile" href="leagues.html">Leagues</a>
-    <a class="w3-bar-item w3-button w3-mobile w3-blue" href="clubs.html">Clubs</a>
-    <a class="w3-bar-item w3-button w3-mobile" href="runners.html">Runners</a>
-    <a class="w3-bar-item w3-button w3-mobile" href="runtimes.html">Run Times</a>
-    <a class="w3-bar-item w3-button w3-mobile" href="events.html">Events</a>
-</div>
+    <div class="w3-bar w3-indigo">
+        <a class="w3-bar-item w3-button w3-mobile" href="index.html">Home</a>
+        <div class="w3-dropdown-hover">
+            <button class="w3-button w3-mobile w3-blue">Administration</button>
+            <div class="w3-dropdown-content w3-bar-block">
+                <a class="w3-bar-item w3-button w3-mobile" href="leagues.html">Leagues</a>
+                <a class="w3-bar-item w3-button w3-mobile" href="clubs.html">Clubs</a>
+                <a class="w3-bar-item w3-button w3-mobile" href="runners.html">Runners</a>
+            </div>
+        </div>
+        
+        <a class="w3-bar-item w3-button w3-mobile" href="runtimes.html">Run Times</a>
+        <a class="w3-bar-item w3-button w3-mobile" href="events.html">Events</a>
+    </div>
 
-<h1>Clubs</h1>
+<div class="w3-container w3-padding-large">
+    <h1>Clubs</h1>
+    <p>Click on the tab below to select the function you want to perform</p>
+
+    <div class="w3-bar">
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('view')">View League Details</button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('create')">Add New League</button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('update')">Edit League Details</button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('delete')">Delete League</button>
+    </div>
 
 <!-- form for viewing a club -->
-<form action="/viewclub" method="POST">
+<div id="view" class="tab">
+<form action="/viewclub" method="POST" autocomplete="off">
     <fieldset>
         <h3>View a club</h3>
         <label>Club ID</label>
-        <input type="number" id="viewClubID" name="club_id">
+        <input class="w3-input" type="number" id="viewClubID" name="club_id">
         <br><br>
         <label>Club Name</label>
-        <input type="text" id="viewClubName" name="club_name">
+        <input class="w3-input" type="text" id="viewClubName" name="club_name">
         <br><br>
-        <button type ="reset">Reset</button>
-        <button type ="submit">Search</button>
+        <button class="w3-btn w3-red" type ="reset">Reset</button>
+        <button class="w3-button w3-green" type ="submit">Search</button>
         <br><br><br>
     </fieldset>
 </form>
+</div>
 
 <!-- form for adding a club -->
+<div id="create" class="tab" style="display:none">
 <form action="/addclub" method="POST">
     <fieldset>
         <h3>Add new running club</h3>
         <label>Club Name</label>
-        <input type ="text" id = "addClubName" name="club_name" required>
+        <input class="w3-input" type ="text" id = "addClubName" name="club_name" required>
         <br><br>
         <label>Secretary Name</label>
-        <input type="text" id = "addSecretaryName" name="secretary_name" required>
+        <input class="w3-input" type="text" id = "addSecretaryName" name="secretary_name" required>
         <br><br>
         <label>Secretary Email</label>
-        <input type="email" id = "addSecretaryEmail" name="club_email" required>
+        <input class="w3-input" type="email" id = "addSecretaryEmail" name="club_email" required>
         <br><br>
-        <button type ="reset">Reset</button>
-        <button type ="submit">Submit</button>
+        <button class="w3-btn w3-red" type ="reset">Reset</button>
+        <button class="w3-btn w3-green" type ="submit">Add Club</button>
     </fieldset>
 </form>
+</div>
+
+  <!-- form for editing a runner -->
+  <div id="update" class="tab" style="display:none">
+    <form action="/updateleague" method="POST" autocomplete="off">
+        <fieldset>
+            <h2>Update a club</h2>
+            <label>Club ID</label>
+            <input class="w3-input" type="number" id='updateClubID' name="club_id" required>
+            <br><br>
+            <label>New Club Name</label>
+            <input class="w3-input" type="text" id="updateClubName" name="new_club_name" required pattern="^[a-zA-Z0-9 ]+">
+            <br><br>
+            <label>New Secretary Name</label>
+            <input class="w3-input" type="text" id="updateSecretaryName" name="new_secretary_name" required pattern="^[a-zA-Z ]+">
+            <br><br>
+            <label>New Club Email Address</label>
+            <input class="w3-input" type="email" id="updateClubEmail" name="new_club_email" required>
+            <br><br>
+            <button class="w3-btn w3-red" type="reset">Reset</button>
+            <button class="w3-btn w3-green" type="submit">Update</button>
+        </fieldset>
+    </form>
+</div>
+
 
 <!-- form for deleting a club -->
-<div id="delete" class="tab" >/*style="display:none"*/
+<div id="delete" class="tab" style="display:none">
     <form name="deleteClub" action="/deleteclub" method="POST" autocomplete="off">
         <fieldset>
             <h2>Delete a club</h2>
