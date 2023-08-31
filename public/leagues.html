@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="https://api.openverse.engineering/v1/images/376da44d-7a3c-4394-bb09-7e434e8b9783/thumb/">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
@@ -20,7 +21,7 @@
 </div>
 
 <div class="w3-container w3-padding-large">
-    <h1>Runners</h1>
+    <h1>Leagues</h1>
     <p>Click on the tab below to select the function you want to perform</p>
 
     <div class="w3-bar">
@@ -48,7 +49,7 @@
         </form>
     </div>
 
-    <!-- form for adding a runner -->
+    <!-- form for adding a league -->
     <div id="create" class="tab" style="display:none">
         <form action="/addleague" method="POST" autocomplete="off">
             <fieldset>
@@ -136,7 +137,6 @@
         document.getElementById(action).style.display = "block";
     }
 </script>
-
 
 </body>
 </html>
