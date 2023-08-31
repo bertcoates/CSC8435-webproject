@@ -1,8 +1,25 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+input:not(:focus):not(:placeholder-shown):invalid {
+    border-color: crimson;
+    border-width: 2px;
 }
 
-a {
-  color: #00B7FF;
+.tooltip .tooltiptext {
+    visibility: hidden;
 }
+
+.tooltip input:not(:focus):not(:placeholder-shown):invalid ~ .tooltiptext {
+    visibility: visible;
+    color: crimson;
+}
+
+.tooltip input[type=date]:placeholder-shown ~ .tooltiptext {
+    visibility: hidden;
+}
+
+input:not(:focus):not(:placeholder-shown):valid {
+    border-color: green;
+    border-width: 2px;
+}
+
+

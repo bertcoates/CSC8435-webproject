@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NEone Can Run - Run Times</title>
     <!-- favicon image from creative commons library at https://openverse.org/image/376da44d-7a3c-4394-bb09-7e434e8b9783?q=running%20shoe -->
@@ -14,15 +15,26 @@
 
 <div class="w3-bar w3-indigo">
     <a class="w3-bar-item w3-button w3-mobile" href="index.html">Home</a>
-    <a class="w3-bar-item w3-button w3-mobile" href="leagues.html">Leagues</a>
-    <a class="w3-bar-item w3-button w3-mobile" href="clubs.html">Clubs</a>
-    <a class="w3-bar-item w3-button w3-mobile" href="runners.html">Runners</a>
+    <div class="w3-dropdown-hover">
+        <button class="w3-button w3-mobile">Administration</button>
+        <div class="w3-dropdown-content w3-bar-block">
+            <a class="w3-bar-item w3-button w3-mobile" href="leagues.html">Leagues</a>
+            <a class="w3-bar-item w3-button w3-mobile" href="clubs.html">Clubs</a>
+            <a class="w3-bar-item w3-button w3-mobile" href="runners.html">Runners</a>
+        </div>
+    </div>
+
     <a class="w3-bar-item w3-button w3-mobile" href="runtimes.html">Run Times</a>
     <a class="w3-bar-item w3-button w3-mobile w3-blue" href="events.html">Events</a>
 </div>
 
-<div class="w3-container w3-padding-64 w3-center">
+<div class="w3-container">
     <h1>Upcoming Events Near You</h1>
+    <p>The following events are taking place in the next 7 days. Click on the event organiser to
+        email them directly, or click 'Register' to sign-up using your NEone Can Run account.</p>
+</div>
+
+<div class="w3-container w3-padding-32 w3-center">
     <table class="w3-table-all w3-card-4">
         <thead>
         <tr class="w3-indigo">

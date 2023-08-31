@@ -1,132 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NEone Can Run - Clubs</title>
     <!-- favicon image from creative commons library at https://openverse.org/image/376da44d-7a3c-4394-bb09-7e434e8b9783?q=running%20shoe -->
-    <link rel="icon" type="image/x-icon" href="https://api.openverse.engineering/v1/images/376da44d-7a3c-4394-bb09-7e434e8b9783/thumb/">
+    <link rel="icon" type="image/x-icon"
+          href="https://api.openverse.engineering/v1/images/376da44d-7a3c-4394-bb09-7e434e8b9783/thumb/">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
 </head>
 <body>
 
-    <div class="w3-bar w3-indigo">
-        <a class="w3-bar-item w3-button w3-mobile" href="index.html">Home</a>
-        <div class="w3-dropdown-hover">
-            <button class="w3-button w3-mobile w3-blue">Administration</button>
-            <div class="w3-dropdown-content w3-bar-block">
-                <a class="w3-bar-item w3-button w3-mobile" href="leagues.html">Leagues</a>
-                <a class="w3-bar-item w3-button w3-mobile" href="clubs.html">Clubs</a>
-                <a class="w3-bar-item w3-button w3-mobile" href="runners.html">Runners</a>
-            </div>
+<div class="w3-bar w3-indigo">
+    <a class="w3-bar-item w3-button w3-mobile" href="index.html">Home</a>
+    <div class="w3-dropdown-hover">
+        <button class="w3-button w3-mobile w3-blue">Administration</button>
+        <div class="w3-dropdown-content w3-bar-block">
+            <a class="w3-bar-item w3-button w3-mobile" href="leagues.html">Leagues</a>
+            <a class="w3-bar-item w3-button w3-mobile" href="clubs.html">Clubs</a>
+            <a class="w3-bar-item w3-button w3-mobile" href="runners.html">Runners</a>
         </div>
-        
-        <a class="w3-bar-item w3-button w3-mobile" href="runtimes.html">Run Times</a>
-        <a class="w3-bar-item w3-button w3-mobile" href="events.html">Events</a>
     </div>
+
+    <a class="w3-bar-item w3-button w3-mobile" href="runtimes.html">Run Times</a>
+    <a class="w3-bar-item w3-button w3-mobile" href="events.html">Events</a>
+</div>
 
 <div class="w3-container w3-padding-large">
     <h1>Clubs</h1>
     <p>Click on the tab below to select the function you want to perform</p>
 
     <div class="w3-bar">
-        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('view')">View League Details</button>
-        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('create')">Add New League</button>
-        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('update')">Edit League Details</button>
-        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('delete')">Delete League</button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('view')">View Club Details
+        </button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('create')">Add New Club
+        </button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('update')">Edit Club
+            Details
+        </button>
+        <button class="w3-bar-item w3-button w3-blue w3-hover-deep-purple" onclick="openTab('delete')">Delete Club
+        </button>
     </div>
 
-<!-- form for viewing a club -->
-<div id="view" class="tab">
-<form action="/viewclub" method="POST" autocomplete="off">
-    <fieldset>
-        <h3>View a club</h3>
-        <label>Club ID</label>
-        <input class="w3-input" type="number" id="viewClubID" name="club_id">
-        <br><br>
-        <label>Club Name</label>
-        <input class="w3-input" type="text" id="viewClubName" name="club_name">
-        <br><br>
-        <button class="w3-btn w3-red" type ="reset">Reset</button>
-        <button class="w3-button w3-green" type ="submit">Search</button>
-        <br><br><br>
-    </fieldset>
-</form>
-</div>
+    <!-- form for viewing a club -->
+    <div id="view" class="tab">
+        <form action="/viewclub" method="POST" autocomplete="off">
+            <fieldset>
+                <h3>View a club</h3>
+                <div class="tooltip"><label>Club ID</label>
+                    <input class="w3-input" type="number" id="viewClubID" name="club_id" placeholder="">
+                    <span class="tooltiptext">Club ID must be an integer</span>
+                </div>
+                <br><br>
+                <div class="tooltip"><label>Club Name</label>
+                    <input class="w3-input" type="text" id="viewClubName" name="club_name" pattern="^[a-zA-z0-9 ]+"
+                           placeholder="">
+                    <span class="tooltiptext">Club names cannot contain special characters</span>
+                </div>
+                <br><br>
+                <p>* Required Field</p>
+                <button class="w3-btn w3-red" type="reset">Reset</button>
+                <button class="w3-button w3-green" type="submit">Search</button>
+                <br><br><br>
+            </fieldset>
+        </form>
+    </div>
 
-<!-- form for adding a club -->
-<div id="create" class="tab" style="display:none">
-<form action="/addclub" method="POST">
-    <fieldset>
-        <h3>Add new running club</h3>
-        <label>Club Name</label>
-        <input class="w3-input" type ="text" id = "addClubName" name="club_name" required>
-        <br><br>
-        <label>Secretary Name</label>
-        <input class="w3-input" type="text" id = "addSecretaryName" name="secretary_name" required>
-        <br><br>
-        <label>Secretary Email</label>
-        <input class="w3-input" type="email" id = "addSecretaryEmail" name="club_email" required>
-        <br><br>
-        <button class="w3-btn w3-red" type ="reset">Reset</button>
-        <button class="w3-btn w3-green" type ="submit">Add Club</button>
-    </fieldset>
-</form>
-</div>
+    <!-- form for adding a club -->
+    <div id="create" class="tab" style="display:none">
+        <form action="/addclub" method="POST">
+            <fieldset>
+                <h3>Add new running club</h3>
+                <div class="tooltip"><label>Club Name *</label>
+                    <input class="w3-input" type="text" id="addClubName" name="club_name" required
+                           pattern="^[a-zA-Z0-9 ]+" placeholder="">
+                    <span class="tooltiptext">Club names cannot contain special characters</span>
+                </div>
+                <br><br>
+                <div class="tooltip"><label>Secretary Name *</label>
+                    <input class="w3-input" type="text" id="addSecretaryName" name="secretary_name" required
+                           pattern="^[a-zA-Z ]+" placeholder="">
+                    <span class="tooltiptext">Names cannot contain numbers or special characters</span>
+                </div>
+                <br><br>
+                <div class="tooltip"><label>Secretary Email *</label>
+                    <input class="w3-input" type="email" id="addSecretaryEmail" name="club_email" required
+                           placeholder="">
+                    <span class="tooltiptext">Please enter a valid email address</span>
+                </div>
+                <br><br>
+                <p>* Required Field</p>
+                <button class="w3-btn w3-red" type="reset">Reset</button>
+                <button class="w3-btn w3-green" type="submit">Add Club</button>
+            </fieldset>
+        </form>
+    </div>
 
-  <!-- form for editing a runner -->
-  <div id="update" class="tab" style="display:none">
-    <form action="/updateleague" method="POST" autocomplete="off">
-        <fieldset>
-            <h2>Update a club</h2>
-            <label>Club ID</label>
-            <input class="w3-input" type="number" id='updateClubID' name="club_id" required>
-            <br><br>
-            <label>New Club Name</label>
-            <input class="w3-input" type="text" id="updateClubName" name="new_club_name" required pattern="^[a-zA-Z0-9 ]+">
-            <br><br>
-            <label>New Secretary Name</label>
-            <input class="w3-input" type="text" id="updateSecretaryName" name="new_secretary_name" required pattern="^[a-zA-Z ]+">
-            <br><br>
-            <label>New Club Email Address</label>
-            <input class="w3-input" type="email" id="updateClubEmail" name="new_club_email" required>
-            <br><br>
-            <button class="w3-btn w3-red" type="reset">Reset</button>
-            <button class="w3-btn w3-green" type="submit">Update</button>
-        </fieldset>
-    </form>
-</div>
+    <!-- form for editing a runner -->
+    <div id="update" class="tab" style="display:none">
+        <form action="/updateleague" method="POST" autocomplete="off">
+            <fieldset>
+                <h2>Update a club</h2>
+                <div class="tooltip"><label>Club ID *</label>
+                    <input class="w3-input" type="number" id='updateClubID' name="club_id" required placeholder="">
+                    <span class="tooltiptext">Club ID must be an integer</span>
+                </div>
+                <br><br>
+                <div class="tooltip"><label>New Club Name *</label>
+                    <input class="w3-input" type="text" id="updateClubName" name="new_club_name" required
+                           pattern="^[a-zA-Z0-9 ]+" placeholder="">
+                    <span class="tooltiptext">Club names cannot contain special characters</span>
+                </div>
+                <br><br>
+                <div class="tooltip"><label>New Secretary Name *</label>
+                    <input class="w3-input" type="text" id="updateSecretaryName" name="new_secretary_name" required
+                           pattern="^[a-zA-Z ]+" placeholder="">
+                    <span class="tooltiptext">Names cannot contain numbers or special characters</span>
+                </div>
+                <br><br>
+                <div class="tooltip"><label>New Club Email Address *</label>
+                    <input class="w3-input" type="email" id="updateClubEmail" name="new_club_email" required
+                           placeholder="">
+                    <span class="tooltiptext">Please enter a valid email address</span>
+                </div>
+                <br><br>
+                <p>* Required Field</p>
+                <button class="w3-btn w3-red" type="reset">Reset</button>
+                <button class="w3-btn w3-green" type="submit">Update</button>
+            </fieldset>
+        </form>
+    </div>
 
 
-<!-- form for deleting a club -->
-<div id="delete" class="tab" style="display:none">
-    <form name="deleteClub" action="/deleteclub" method="POST" autocomplete="off">
-        <fieldset>
-            <h2>Delete a club</h2>
-            <label>Club ID</label>
-            <input class="w3-input" type="number" id='deleteClubID' name="club_id" required>
-            <br><br>
-            <button class="w3-btn w3-red" type="reset">Reset</button>
-            <button class="w3-btn w3-green" type="button"
-                    onclick="document.getElementById('confirm').style.display='block'">Delete
-            </button>
-            <div id="confirm" class="w3-modal">
-                <div class="w3-modal-content" >
-                    <div class="w3-container">
-                        <button onclick="document.getElementById('confirm').style.display='none'"
-                                class="w3-button w3-display-topright">&times;
-                        </button>
-                        <h3>Confirm deletion</h3>
-                        <p>Are you sure you want to remove this club?</p>
-                        <br><br><br>
-                        <button class="w3-button w3-red w3-display-bottommiddle" type="submit">Delete Club</button>
+    <!-- form for deleting a club -->
+    <div id="delete" class="tab" style="display:none">
+        <form name="deleteClub" action="/deleteclub" method="POST" autocomplete="off">
+            <fieldset>
+                <h2>Delete a club</h2>
+                <div class="tooltip"><label>Club ID *</label>
+                    <input class="w3-input" type="number" id='deleteClubID' name="club_id" required placeholder="">
+                    <span class="tooltiptext">Club ID must be an integer</span>
+                </div>
+                <br><br>
+                <p>* Required Field</p>
+                <button class="w3-btn w3-red" type="reset">Reset</button>
+                <button class="w3-btn w3-green" type="button"
+                        onclick="document.getElementById('confirm').style.display='block'">Delete
+                </button>
+                <div id="confirm" class="w3-modal">
+                    <div class="w3-modal-content">
+                        <div class="w3-container">
+                            <button type="button" onclick="document.getElementById('confirm').style.display='none'"
+                                    class="w3-button w3-display-topright">&times;
+                            </button>
+                            <h3>Confirm deletion</h3>
+                            <p>Are you sure you want to remove this club?</p>
+                            <br><br><br>
+                            <button class="w3-button w3-red w3-display-bottommiddle" type="submit">Delete Club</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </fieldset>
-    </form>
+            </fieldset>
+        </form>
+    </div>
 </div>
 
+<!-- Code below modified from W3 Schools documentation for tabbed displays at https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_tabulators -->
+<script>
+    function openTab(action) {
+        let x = document.getElementsByClassName("tab");
+        for (let i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        document.getElementById(action).style.display = "block";
+    }
+</script>
 
 </body>
 </html>
